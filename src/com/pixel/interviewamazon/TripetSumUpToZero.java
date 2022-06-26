@@ -1,5 +1,6 @@
 package com.pixel.interviewamazon;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,8 +29,53 @@ public class TripetSumUpToZero {
         return false;
     }
 
+
+    public static int checkTripletSum(int[] arr) {
+        int sum = 0;
+        int wantSumTriplet = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        for (int j = 0; j < arr.length; j++) {
+            sum = sum - arr[j];
+            if (wantSumTriplet == sum) {
+                return arr[j + 1];
+            } else {
+                wantSumTriplet += arr[j];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * check with
+     */
+
+    public static boolean checkTripletSumComplexity(int[] arr, int sumRequire) {
+        int lengthArr = arr.length;
+        if (lengthArr < 3) {
+            return false;
+        }
+        Arrays.sort(arr);
+        for (int i = 0; i < arr.length; i++) { //Complexity 0(n)
+            int startIndex = i + 1;
+            int endIndex = lengthArr - 1;
+            while (startIndex < endIndex) {// Complexity 0(nlogn)
+                int sumTemp = arr[i] + arr[startIndex] + arr[endIndex];
+                if (sumTemp == sumRequire) {
+                    return true;
+                } else if (sumTemp < sumRequire) {
+                    startIndex++;
+                } else {
+                    endIndex--;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
-        int[] arr = {-1, -2, 2, 3};
-        System.out.println("" + isCheckTripletSum(arr));
+        int[] arr = {0, -1, 2, -3, 1};
+        System.out.println("" + checkTripletSumComplexity(arr, 0));
     }
 }
